@@ -1,11 +1,11 @@
-Simple Azure Blockchain Workbench Application for Managing Azure CSP Credits 
+An Azure Blockchain Workbench Application for Managing Azure CSP Credits 
 ================================================================================
 
 Overview 
 ---------
 
-The Simple Marketplace application expresses a workflow for a simple transaction
-between a CSP and a buyer AzureCSP Credits.  The state transition diagram
+The AzureCSPCredits application expresses a workflow for a simple transaction
+between a CSP and a buyer of Azure CSP Credits.  The state transition diagram
 below shows the interactions among the states in this workflow. 
 
 Application Roles 
@@ -21,7 +21,7 @@ States 
 | Name                   | Description                                       |
 |------------------------|---------------------------------------------------|
 |CreditsAvailable |Indicates that a CSP has made a number of credits available at a price and a value for a customer in the marketplace. 
-|ManageCredits |Indicates that Buyer has accepted the Credits and he can Activate the Credits or Request more
+|ManageCredits |Indicates that Buyer has accepted the Credits and he can Activate the Credits or Request for more.
 |MakeOffer |Indicates that CSP has placed a new offer for the requested number Credits.
 |Terminated | Indicates that CSP has terminated the contract. 
 
