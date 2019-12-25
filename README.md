@@ -28,7 +28,7 @@ States 
 Workflow Details
 ----------------
 
-![workflow details for application](media/worfkflow.png)
+![workflow details for application](media/workflow.png)
 
 An instance of the AzureCSPCredits application's workflow starts in the CreditsAvailable state when a CSP makes a number of credits available for use by specifying its quitity, value and price.  A buyer can then accept or reject the credits.  This action causes the state to change from MaageCredits state to CreditsAvailable state. At MakeOffer state the CSP can place an offer to the buyer for the requested number of credits and the state changes to CreditsAvailable state. 
 
