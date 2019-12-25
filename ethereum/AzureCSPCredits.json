@@ -1,0 +1,284 @@
+{
+  "ApplicationName": "AzureCSPCredits",
+  "DisplayName": "AzureCSP Credits Marketplace",
+  "Description": "A Marketplace for azure credits between a CSP and a customer",
+  "ApplicationRoles": [
+    {
+      "Name": "Buyer",
+      "Description": "A Customer who wants to buy credits"
+    },
+    {
+      "Name": "AzureCSP",
+      "Description": "The CSP that offers the Azure Credits"
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "AzureCSPCredits",
+      "DisplayName": "AzureCSP Credits Marketplace",
+      "Description": "Handles the business logic for the azure credits transfer scenario",
+      "Initiators": [ "AzureCSP" ],
+      "StartState":  "CreditsAvailable",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the contract",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "OfferQty",
+          "DisplayName": "Offer Credit Qty",
+          "Description": "Describes the quantity of the credits in an offer",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "OfferPrice",
+          "DisplayName": "Offer Credit Price",
+          "Description": "The offer price for the Credits",
+          "Type": {
+            "Name": "money"
+          }
+        },
+		{
+          "Name": "TotalCreditQty",
+          "DisplayName": "Total Credit Qty",
+          "Description": "Describes the total quantity of the credits being sold",
+          "Type": {
+            "Name": "int"
+          }
+        },
+		{
+          "Name": "CreditPrice",
+          "DisplayName": "Credit Price",
+          "Description": "Describes the price value of the credit",
+          "Type": {
+            "Name": "money"
+          }
+        },
+		{
+          "Name": "TotalCreditPrice",
+          "DisplayName": "Total Credit Price",
+          "Description": "Describes the total price of the credit being sold",
+          "Type": {
+            "Name": "money"
+          }
+        },
+		{
+          "Name": "ActiveQty",
+          "DisplayName": "Active Credits",
+          "Description": "Describes the number of activated credits",
+          "Type": {
+            "Name": "int"
+          }
+        },
+		{
+          "Name": "RequestQty",
+          "DisplayName": "Request Qty of Credits",
+          "Description": "Describes the number of requested credits",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "CreditBuyer",
+          "DisplayName": "Credit Buyer",
+          "Description": "The user that buys credits",
+          "Type": {
+            "Name": "Buyer"
+          }
+        },
+        {
+          "Name": "CreditOwner",
+          "DisplayName": "Credit Owner",
+          "Description": "The seller of this particular credit",
+          "Type": {
+            "Name": "AzureCSP"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "qty",
+            "Description": "The initial qty of credits in the contract",
+            "DisplayName": "Qty",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "price",
+            "Description": "The price of the credits in the contract",
+            "DisplayName": "Price",
+            "Type": {
+              "Name": "money"
+            }
+          }
+        ]
+      },
+      "Functions": [
+	    {
+          "Name": "AcceptOffer",
+          "DisplayName": "Accept Offer",
+          "Description": "Accept the offer made",
+          "Parameters": []
+        },
+        {
+          "Name": "Reject",
+          "DisplayName": "Reject Offer",
+          "Description": "Reject the offer made",
+          "Parameters": []
+        },
+        {
+          "Name": "ActivateCredits",
+          "DisplayName": "ActivateCredits",
+          "Description": "Activate credits of this contract",
+          "Parameters": [
+            {
+              "Name": "qty",
+              "Description": "Activate qty",
+              "DisplayName": "Activate qty",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "RequestCredits",
+          "DisplayName": "Request Credits",
+          "Description": "Used to request to buy more credits",
+          "Parameters": [
+            {
+              "Name": "qty",
+              "Description": "Request Qty",
+              "DisplayName": "Request Qty",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "MakeOffer",
+          "DisplayName": "Make Offer",
+          "Description": "Make an offer",
+          "Parameters": [
+            {
+              "Name": "qty",
+              "Description": "Specify the qty of credits for this offer",
+              "DisplayName": "Offer Qty",
+              "Type": {
+                "Name": "int"
+              }
+            },
+			{
+              "Name": "price",
+              "Description": "Specify the price of credits for this offer",
+              "DisplayName": "Offer Price",
+              "Type": {
+                "Name": "money"
+              }
+            }
+          ]
+        },
+		{
+          "Name": "Terminate",
+          "DisplayName": "Terminate Contract",
+          "Description": "Terminate Contract",
+          "Parameters": [ ]
+        }
+      ],
+      "States": [
+        {
+          "Name": "CreditsAvailable",
+          "DisplayName": "Credits Available",
+          "Description": "The initial state of the credits marketplace workflow",
+          "PercentComplete": 40,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [ "Buyer"],
+              "AllowedInstanceRoles": [ ],
+              "Description": "Accept the proposed offer for the credits",
+              "Function": "AcceptOffer",
+              "NextStates": [ "ManageCredits" ],
+              "DisplayName": "Accept Offer"
+            },
+            {
+              "AllowedRoles": [ "Buyer" ],
+              "AllowedInstanceRoles": [ ],
+              "Description": "Reject the proposed offer for the credits",
+              "Function": "Reject",
+              "NextStates": [ "ManageCredits" ],
+              "DisplayName": "Reject Offer"
+            },
+			{
+              "AllowedRoles": [ "AzureCSP"],
+              "AllowedInstanceRoles": [ ],
+              "Description": "Terminate the contract",
+              "Function": "Terminate",
+              "NextStates": [ "Terminated" ],
+              "DisplayName": "Terminate Contract"
+            },
+          ]
+        },
+        {
+          "Name": "ManageCredits",
+          "DisplayName": "Manage Credits",
+          "Description": "Manage credits",
+          "PercentComplete": 60,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [ ],
+              "AllowedInstanceRoles": [ "CreditBuyer" ],
+              "Description": "Request Credits",
+              "Function": "RequestCredits",
+              "NextStates": [ "MakeOffer" ],
+              "DisplayName": "Request Credits"
+            },
+            {
+              "AllowedRoles": [ ],
+              "AllowedInstanceRoles": [ "CreditBuyer" ],
+              "Description": "Activate Credits",
+              "Function": "ActivateCredits",
+              "NextStates": [ "ManageCredits" ],
+              "DisplayName": "ActivateCredits"
+            }
+          ]
+        },
+        {
+          "Name": "MakeOffer",
+          "DisplayName": "Make Offer",
+          "Description": "Make an offer",
+          "PercentComplete": 80,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "CreditOwner" ],
+              "Description": "Make an offer",
+              "Function": "MakeOffer",
+              "NextStates": [ "CreditsAvailable" ],
+              "DisplayName": "MakeOffer"
+            }
+          ]
+        },
+		{
+          "Name": "Terminated",
+          "DisplayName": "Terminated",
+          "Description": "Credit Contract has been terminated",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": [ ]
+        }
+      ]
+    }
+  ]
+}
