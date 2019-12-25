@@ -1,4 +1,4 @@
-Simple Azure Blockchain Workbench Application for for Managing Azure CSP Credits 
+Simple Azure Blockchain Workbench Application for Managing Azure CSP Credits 
 ================================================================================
 
 Overview 
